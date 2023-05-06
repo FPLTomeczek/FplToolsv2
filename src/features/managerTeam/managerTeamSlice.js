@@ -1,13 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = [{}];
+const initialState = {
+  picks: [],
+};
 
 const managerTeamSlice = createSlice({
   name: "managerTeam",
   initialState,
   reducers: {
     picksAdded(state, action) {
-      state.push(action.payload);
+      console.log(action.payload);
+      state.picks = action.payload;
     },
   },
 });

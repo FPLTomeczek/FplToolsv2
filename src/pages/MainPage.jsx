@@ -1,14 +1,19 @@
 import { useState } from "react";
 import { getManagerTeam } from "../customHooks";
+import { useDispatch } from "react-redux";
+import { picksAdded } from "../features/managerTeam/managerTeamSlice";
 import TransferPlanner from "../components/TransferPlanner";
 
 const MainPage = () => {
   const [userID, setUserID] = useState("");
 
-  const handleSubmit = async (e) => {
+  const dispatch = useDispatch();
+
+  const handleSubmit = async (e, id) => {
     e.preventDefault();
-    const { picks } = await getManagerTeam();
+    const { picks } = await getManagerTeam(id);
     console.log(picks);
+    dispatch(picksAdded(picks));
   };
 
   return (
@@ -19,7 +24,7 @@ const MainPage = () => {
           onChange={(e) => setUserID(e.target.value)}
           value={userID}
         />
-        <button type="submit" onClick={(e) => handleSubmit(e)}>
+        <button type="submit" onClick={(e) => handleSubmit(e, userID)}>
           Submit
         </button>
       </form>
