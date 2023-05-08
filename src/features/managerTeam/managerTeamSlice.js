@@ -9,7 +9,6 @@ const managerTeamSlice = createSlice({
   initialState,
   reducers: {
     picksAdded(state, action) {
-      console.log(action.payload);
       state.picks = action.payload;
     },
   },

@@ -3,7 +3,6 @@ import PlayerPick from "./PlayerPick";
 
 const TransferPlanner = () => {
   const managerTeam = useSelector((state) => state.managerTeam);
-  console.log(managerTeam);
   const picks = managerTeam.picks;
 
   return (
