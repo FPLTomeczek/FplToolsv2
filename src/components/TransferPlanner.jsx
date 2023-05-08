@@ -8,8 +8,8 @@ const TransferPlanner = () => {
   return (
     <div>
       {picks.map((pick) => {
-        const { element } = pick;
-        return <p key={element}>{element}</p>;
+        const { id, web_name } = pick;
+        return <p key={id}>{`${id} ${web_name}`}</p>;
       })}
     </div>
   );

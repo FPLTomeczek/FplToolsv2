@@ -11,9 +11,8 @@ const MainPage = () => {
 
   const handleSubmit = async (e, id) => {
     e.preventDefault();
-    const { picks } = await getManagerTeam(id);
-    console.log(picks);
-    dispatch(picksAdded(picks));
+    const { players } = await getManagerTeam(id);
+    dispatch(picksAdded(players));
   };
 
   return (
