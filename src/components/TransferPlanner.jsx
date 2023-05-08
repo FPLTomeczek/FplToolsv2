@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux";
+import PlayerPick from "./PlayerPick";
 
 const TransferPlanner = () => {
   const managerTeam = useSelector((state) => state.managerTeam);
@@ -9,7 +10,7 @@ const TransferPlanner = () => {
     <div>
       {picks.map((pick) => {
         const { id, web_name } = pick;
-        return <p key={id}>{`${id} ${web_name}`}</p>;
+        return <PlayerPick key={id} name={web_name} />;
       })}
     </div>
   );
