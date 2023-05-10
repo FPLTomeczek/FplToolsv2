@@ -15,5 +15,7 @@ export const getManagerTeam = async (id) => {
 
   const teamPicks = await getTeamPicks(teamIDs);
 
-  return assignPositionsToPlayers(playersPositions, teamPicks);
+  return assignPositionsToPlayers(playersPositions, teamPicks).sort(
+    (a, b) => a.position - b.position
+  );
 };
