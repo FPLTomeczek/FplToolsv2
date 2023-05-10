@@ -12,7 +12,7 @@ const MainPage = () => {
   const handleSubmit = async (e) => {
     const id = inputRef.current.value;
     e.preventDefault();
-    const { players } = await getManagerTeam(id);
+    const players = await getManagerTeam(id);
     dispatch(picksAdded(players));
   };
 
