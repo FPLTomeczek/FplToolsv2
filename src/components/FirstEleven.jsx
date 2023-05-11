@@ -19,26 +19,44 @@ const FirstEleven = ({ picks }) => {
 
   console.log(picksByRole);
 
+  // <a href="https://www.vecteezy.com/free-vector/football-pitch">
+  //   Football Pitch Vectors by Vecteezy
+  // </a>;
   return (
     <Wrapper>
-      {picksByRole.map((players, ind) => {
-        console.log(players);
-        return (
-          <div key={ind} className="picks-row">
-            {players.map((player) => {
-              console.log(player);
-              return <PlayerPick key={player.id} name={player.web_name} />;
-            })}
-          </div>
-        );
-      })}
+      <div className="pitch">
+        {picksByRole.map((players, ind) => {
+          console.log(players);
+          return (
+            <div key={ind} className="picks-row">
+              {players.map((player) => {
+                console.log(player);
+                return <PlayerPick key={player.id} name={player.web_name} />;
+              })}
+            </div>
+          );
+        })}
+      </div>
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
-  .picks-row {
+  .pitch {
+    background-image: url("src/assets/FOOTBALL_FIELD_portrait.jpg");
+    width: 600px;
+    height: 900px;
+    background-size: contain;
+    background-repeat: no-repeat;
     display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+  }
+  .picks-row {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
   }
 `;
 
