@@ -20,6 +20,7 @@ const Wrapper = styled.div`
   }
   .player-pick > i {
     font-size: 4rem;
+    color: linear-gradient(to right, green 0%, green 80%, red 80%, red 100%);
   }
 `;
 

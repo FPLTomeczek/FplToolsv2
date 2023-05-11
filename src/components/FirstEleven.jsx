@@ -42,10 +42,12 @@ const FirstEleven = ({ picks }) => {
 };
 
 const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
   .pitch {
     background-image: url("src/assets/FOOTBALL_FIELD_portrait.jpg");
-    width: 600px;
-    height: 900px;
+    width: 500px;
+    height: 750px;
     background-size: contain;
     background-repeat: no-repeat;
     display: flex;
