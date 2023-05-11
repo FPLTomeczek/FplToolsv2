@@ -12,7 +12,6 @@ export const assignPositionsToPlayers = (positionObjects, playerObjects) => {
   const players = playerObjects.map((player) => {
     return { ...player, position: ids.indexOf(player.id) };
   });
-  console.log(players);
   return players;
 };
 
