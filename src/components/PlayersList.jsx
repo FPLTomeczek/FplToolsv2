@@ -20,21 +20,48 @@ const paginate = (list) => {
 
 const PlayersList = () => {
   const players = useSelector((state) => state.players.playersList);
+  const status = useSelector((state) => state.players.status);
+  console.log(players);
   let page = 1;
   const pagesData = paginate(players);
 
+  if (status === "loading") {
+    return <p>Loading...</p>;
+  }
+
+  if (status === "error") {
+    return <p>Error</p>;
+  }
+
+  if (status === "idle") {
+    return <p>Idle</p>;
+  }
+
   return (
     <Wrapper>
-      {pagesData[page - 1].map((player) => {
-        const { web_name, team, element_type, id } = player;
-        return (
-          <div key={id} className="player-list-item">
-            <p>{web_name}</p>
-            <p>{team}</p>
-            <p>{element_type}</p>
-          </div>
-        );
-      })}
+      <div className="player-list-header">
+        <i></i>
+        <p className="player-list-name">Name</p>
+        <p className="player-list-number">Team</p>
+        <p className="player-list-number">Role</p>
+        <p className="player-list-number">Pts</p>
+        <p className="player-list-number">£</p>
+      </div>
+      {players &&
+        pagesData[page - 1].map((player) => {
+          const { web_name, team, element_type, id, total_points, now_cost } =
+            player;
+          return (
+            <div key={id} className="player-list-item">
+              <i className="fa-solid fa-shirt"></i>
+              <p className="player-list-name">{web_name}</p>
+              <p className="player-list-number">{team}</p>
+              <p className="player-list-number">{element_type}</p>
+              <p className="player-list-number">{total_points}</p>
+              <p className="player-list-number">{now_cost / 10}</p>
+            </div>
+          );
+        })}
       <button className="switchPage">
         <i className="fa-solid fa-angles-left"></i>
       </button>
@@ -52,8 +79,26 @@ const PlayersList = () => {
 };
 
 const Wrapper = styled.div`
-  .player-list-item {
+  width: 100%;
+
+  .player-list-item,
+  .player-list-header {
     display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .player-list-item {
+    border-top: 1px solid gray;
+  }
+  .player-list-number {
+    min-width: 10%;
+  }
+  .player-list-name {
+    min-width: 50%;
+  }
+  .player-list-item > i,
+  .player-list-header > i {
+    min-width: 10%;
   }
   .switchPage {
     border-radius: 50%;

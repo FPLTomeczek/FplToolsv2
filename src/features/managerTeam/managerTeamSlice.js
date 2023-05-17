@@ -2,6 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   picks: [],
+  value: 0,
+  freeTransfers: 0,
 };
 
 const managerTeamSlice = createSlice({

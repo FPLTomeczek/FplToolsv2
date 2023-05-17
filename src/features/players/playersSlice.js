@@ -26,7 +26,7 @@ const playersSlice = createSlice({
       })
       .addCase(fetchPlayers.fulfilled, (state, action) => {
         state.status = "success";
-        state.playersList = state.playersList.concat(action.payload);
+        state.playersList = action.payload;
       })
       .addCase(fetchPlayers.rejected, (state, action) => {
         state.status = "failed";
