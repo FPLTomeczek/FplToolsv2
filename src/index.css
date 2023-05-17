@@ -22,6 +22,7 @@ html {
 
 body {
   margin: 0;
+  font-family: "Poppins", sans-serif;
 }
 
 /**
@@ -174,7 +175,8 @@ textarea {
  */
 
 button,
-input { /* 1 */
+input {
+  /* 1 */
   overflow: visible;
 }
 
@@ -184,7 +186,8 @@ input { /* 1 */
  */
 
 button,
-select { /* 1 */
+select {
+  /* 1 */
   text-transform: none;
 }
 
@@ -197,6 +200,8 @@ button,
 [type="reset"],
 [type="submit"] {
   -webkit-appearance: button;
+  border: none;
+  background-color: white;
 }
 
 /**

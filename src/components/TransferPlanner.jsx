@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import FirstEleven from "./FirstEleven";
 import Bench from "./Bench";
 import { styled } from "styled-components";
+import PlayerList from "./PlayersList";
 
 const TransferPlanner = () => {
   const managerTeam = useSelector((state) => state.managerTeam);
@@ -9,7 +10,7 @@ const TransferPlanner = () => {
 
   return (
     <Wrapper>
-      <div className="planner-content">
+      <div className="planner-picks">
         <FirstEleven picks={picks.slice(0, 11)} />
         {/* {picks.map((pick) => {
         const { id, web_name } = pick;
@@ -17,17 +18,17 @@ const TransferPlanner = () => {
       })} */}
         <Bench picks={picks.slice(11, 15)} />
       </div>
+
+      <PlayerList />
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
   display: flex;
-  flex-direction: column;
   align-items: center;
-  max-width: 50%;
-  .planner-content {
-    max-width: 600px;
+  .planner-picks {
+    width: 50%;
   }
 `;
 
