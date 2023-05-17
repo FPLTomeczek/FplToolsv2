@@ -3,6 +3,7 @@ import { getManagerTeam } from "../customHooks";
 import { useDispatch } from "react-redux";
 import { picksAdded } from "../features/managerTeam/managerTeamSlice";
 import TransferPlanner from "../components/TransferPlanner";
+import { Button, TextField, Box } from "@mui/material";
 
 const MainPage = () => {
   const inputRef = useRef();
@@ -17,20 +18,28 @@ const MainPage = () => {
   };
 
   return (
-    <div>
+    <Box
+      mt={2}
+      sx={{ display: "flex", alignItems: "center", flexDirection: "column" }}
+    >
       <form>
-        <input
-          type="text"
-          ref={inputRef}
-          // onChange={(e) => (inputRef.current.value = e.target.value)}
-          // value={inputRef.current.value}
+        <TextField
+          id="outlined-basic"
+          label="Enter Your ID"
+          variant="outlined"
+          inputRef={inputRef}
+          size="small"
         />
-        <button type="submit" onClick={(e) => handleSubmit(e)}>
+        <Button
+          variant="contained"
+          type="submit"
+          onClick={(e) => handleSubmit(e)}
+        >
           Submit
-        </button>
+        </Button>
       </form>
       <TransferPlanner />
-    </div>
+    </Box>
   );
 };
 

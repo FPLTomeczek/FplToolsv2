@@ -3,6 +3,7 @@ import FirstEleven from "./FirstEleven";
 import Bench from "./Bench";
 import { styled } from "styled-components";
 import PlayerList from "./PlayersList";
+import { Grid } from "@mui/material";
 
 const TransferPlanner = () => {
   const managerTeam = useSelector((state) => state.managerTeam);
@@ -10,16 +11,26 @@ const TransferPlanner = () => {
 
   return (
     <Wrapper>
-      <div className="planner-picks">
-        <FirstEleven picks={picks.slice(0, 11)} />
-        {/* {picks.map((pick) => {
-        const { id, web_name } = pick;
-        return <PlayerPick key={id} name={web_name} />;
-      })} */}
-        <Bench picks={picks.slice(11, 15)} />
-      </div>
+      <Grid container mt={2}>
+        <Grid
+          item
+          xs={12}
+          md={6}
+          mt={4}
+          sx={{ display: "flex", justifyContent: "center" }}
+        >
+          <div className="planner-picks">
+            <FirstEleven picks={picks.slice(0, 11)} />
+            <Bench picks={picks.slice(11, 15)} />
+          </div>
+        </Grid>
 
-      <PlayerList />
+        <Grid item xs={12} md={6}>
+          <div className="player-list">
+            <PlayerList />
+          </div>
+        </Grid>
+      </Grid>
     </Wrapper>
   );
 };
@@ -27,8 +38,9 @@ const TransferPlanner = () => {
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
+  width: 100%;
   .planner-picks {
-    width: 50%;
+    max-width: 500px;
   }
 `;
 
