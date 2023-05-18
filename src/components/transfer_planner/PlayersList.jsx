@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { styled } from "styled-components";
 import { Typography } from "@mui/material";
+import PlayersListForm from "./PlayersListForm";
 
 const paginate = (list) => {
   const divider = 20;
@@ -43,6 +44,7 @@ const PlayersList = () => {
       <Typography variant="h3">
         Page {page} / {numOfPages}
       </Typography>
+      <PlayersListForm />
       <div className="player-list-header">
         <i></i>
         <p className="player-list-name">Name</p>

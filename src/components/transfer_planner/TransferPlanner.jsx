@@ -15,7 +15,7 @@ const TransferPlanner = () => {
         <Grid
           item
           xs={12}
-          md={6}
+          lg={6}
           mt={4}
           sx={{ display: "flex", justifyContent: "center" }}
         >
@@ -25,7 +25,7 @@ const TransferPlanner = () => {
           </div>
         </Grid>
 
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} lg={6}>
           <div className="player-list">
             <PlayerList />
           </div>
