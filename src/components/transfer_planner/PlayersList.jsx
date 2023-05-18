@@ -24,7 +24,6 @@ const PlayersList = () => {
   const players = useSelector((state) => state.players.playersList);
   const status = useSelector((state) => state.players.status);
   const [page, setPage] = useState(1);
-  console.log(players);
   const { pagesData, numOfPages } = paginate(players);
 
   if (status === "loading") {
