@@ -2,21 +2,37 @@ import React from "react";
 import PlayerPick from "./PlayerPick";
 import { styled } from "styled-components";
 
+function roleToIndex(role) {
+  switch (role) {
+    case "GK":
+      return 0;
+    case "DEF":
+      return 1;
+    case "MID":
+      return 2;
+    case "FWD":
+      return 3;
+    default:
+      break;
+  }
+}
+
 const FirstEleven = ({ picks }) => {
   const picksByRole = picks.reduce((accumulator, value) => {
-    console.log(value);
-    if (accumulator[value.element_type - 1] === undefined) {
-      accumulator[value.element_type - 1] = [value];
+    const index = roleToIndex(value.element_type);
+    if (accumulator[index] === undefined) {
+      accumulator[index] = [value];
     } else {
-      accumulator[value.element_type - 1] = [
-        ...accumulator[value.element_type - 1],
-        value,
-      ];
+      accumulator[index] = [...accumulator[index], value];
     }
     return accumulator;
   }, []);
+
   console.log(picksByRole);
 
+  // for (const role in picksByRole) {
+  //   console.log(picksByRole[role]);
+  // }
   // <a href="https://www.vecteezy.com/free-vector/football-pitch">
   //   Football Pitch Vectors by Vecteezy
   // </a>;
@@ -24,7 +40,6 @@ const FirstEleven = ({ picks }) => {
     <Wrapper>
       <div className="pitch">
         {picksByRole.map((players, ind) => {
-          console.log(players);
           return (
             <div key={ind} className="picks-row">
               {players.map((player) => {
