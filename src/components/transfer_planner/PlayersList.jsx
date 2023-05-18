@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { styled } from "styled-components";
+import { Typography } from "@mui/material";
+import PlayersListForm from "./PlayersListForm";
 
 const paginate = (list) => {
   const divider = 20;
   const numOfPages =
     list.length % divider === 0
       ? list.length / divider
-      : list.length / divider + 1;
+      : Math.ceil(list.length / divider);
 
   const pagesData = [];
 
@@ -15,15 +17,15 @@ const paginate = (list) => {
     pagesData.push(list.slice(i * divider, divider * (i + 1)));
   }
 
-  return pagesData;
+  return { pagesData, numOfPages };
 };
 
 const PlayersList = () => {
   const players = useSelector((state) => state.players.playersList);
   const status = useSelector((state) => state.players.status);
+  const [page, setPage] = useState(1);
   console.log(players);
-  let page = 1;
-  const pagesData = paginate(players);
+  const { pagesData, numOfPages } = paginate(players);
 
   if (status === "loading") {
     return <p>Loading...</p>;
@@ -39,6 +41,10 @@ const PlayersList = () => {
 
   return (
     <Wrapper>
+      <Typography variant="h3">
+        Page {page} / {numOfPages}
+      </Typography>
+      <PlayersListForm />
       <div className="player-list-header">
         <i></i>
         <p className="player-list-name">Name</p>
@@ -62,18 +68,26 @@ const PlayersList = () => {
             </div>
           );
         })}
-      <button className="switchPage">
-        <i className="fa-solid fa-angles-left"></i>
-      </button>
-      <button className="switchPage">
-        <i className="fa-solid fa-arrow-left"></i>
-      </button>
-      <button className="switchPage">
-        <i className="fa-solid fa-arrow-right"></i>
-      </button>
-      <button className="switchPage">
-        <i className="fa-solid fa-angles-right"></i>
-      </button>
+      <div className="buttons">
+        <button className="switchPage" onClick={() => setPage(1)}>
+          <i className="fa-solid fa-angles-left"></i>
+        </button>
+        <button
+          className="switchPage"
+          onClick={() => setPage((prev) => prev - 1)}
+        >
+          <i className="fa-solid fa-arrow-left"></i>
+        </button>
+        <button
+          className="switchPage"
+          onClick={() => setPage((prev) => prev + 1)}
+        >
+          <i className="fa-solid fa-arrow-right"></i>
+        </button>
+        <button className="switchPage" onClick={() => setPage(numOfPages)}>
+          <i className="fa-solid fa-angles-right"></i>
+        </button>
+      </div>
     </Wrapper>
   );
 };
@@ -105,6 +119,12 @@ const Wrapper = styled.div`
     box-shadow: 0px 5px 5px;
     cursor: pointer;
     padding: 0.5rem;
+  }
+  .buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    padding: 0.5rem 0;
   }
 `;
 

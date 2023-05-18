@@ -4,6 +4,7 @@ import { styled } from "styled-components";
 
 const FirstEleven = ({ picks }) => {
   const picksByRole = picks.reduce((accumulator, value) => {
+    console.log(value);
     if (accumulator[value.element_type - 1] === undefined) {
       accumulator[value.element_type - 1] = [value];
     } else {
@@ -14,6 +15,7 @@ const FirstEleven = ({ picks }) => {
     }
     return accumulator;
   }, []);
+  console.log(picksByRole);
 
   // <a href="https://www.vecteezy.com/free-vector/football-pitch">
   //   Football Pitch Vectors by Vecteezy
@@ -22,6 +24,7 @@ const FirstEleven = ({ picks }) => {
     <Wrapper>
       <div className="pitch">
         {picksByRole.map((players, ind) => {
+          console.log(players);
           return (
             <div key={ind} className="picks-row">
               {players.map((player) => {

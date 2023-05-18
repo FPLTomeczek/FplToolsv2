@@ -14,7 +14,7 @@ const Bench = ({ picks }) => {
 
 const Wrapper = styled.div`
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   margin-top: 1rem;
 `;
 export default Bench;
