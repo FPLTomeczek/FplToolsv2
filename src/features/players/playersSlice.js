@@ -10,7 +10,6 @@ export const fetchPlayers = createAsyncThunk(
   "players/fetchPlayers",
   async () => {
     const response = await axiosInstance.get("/players");
-    console.log(response.data.players);
     return response.data.players;
   }
 );

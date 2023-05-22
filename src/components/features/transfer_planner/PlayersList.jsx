@@ -2,29 +2,20 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { styled } from "styled-components";
 import { Typography } from "@mui/material";
+import { paginate, handleSettingPages } from "./utils";
 import PlayersListForm from "./PlayersListForm";
-
-const paginate = (list) => {
-  const divider = 20;
-  const numOfPages =
-    list.length % divider === 0
-      ? list.length / divider
-      : Math.ceil(list.length / divider);
-
-  const pagesData = [];
-
-  for (let i = 0; i < numOfPages; i++) {
-    pagesData.push(list.slice(i * divider, divider * (i + 1)));
-  }
-
-  return { pagesData, numOfPages };
-};
+import PlayerListItem from "./PlayerListItem";
+import ListButtons from "../../list/ListButtons";
 
 const PlayersList = () => {
   const players = useSelector((state) => state.players.playersList);
   const status = useSelector((state) => state.players.status);
   const [page, setPage] = useState(1);
   const { pagesData, numOfPages } = paginate(players);
+
+  function curryPages(callback, numOfPages) {
+    return (type) => handleSettingPages(callback, type, numOfPages);
+  }
 
   if (status === "loading") {
     return <p>Loading...</p>;
@@ -54,39 +45,10 @@ const PlayersList = () => {
       </div>
       {players &&
         pagesData[page - 1].map((player) => {
-          const { web_name, team, element_type, id, total_points, now_cost } =
-            player;
-          return (
-            <div key={id} className="player-list-item">
-              <i className="fa-solid fa-shirt"></i>
-              <p className="player-list-name">{web_name}</p>
-              <p className="player-list-number">{team}</p>
-              <p className="player-list-number">{element_type}</p>
-              <p className="player-list-number">{total_points}</p>
-              <p className="player-list-number">{now_cost / 10}</p>
-            </div>
-          );
+          const { id } = player;
+          return <PlayerListItem player={player} key={id} />;
         })}
-      <div className="buttons">
-        <button className="switchPage" onClick={() => setPage(1)}>
-          <i className="fa-solid fa-angles-left"></i>
-        </button>
-        <button
-          className="switchPage"
-          onClick={() => setPage((prev) => prev - 1)}
-        >
-          <i className="fa-solid fa-arrow-left"></i>
-        </button>
-        <button
-          className="switchPage"
-          onClick={() => setPage((prev) => prev + 1)}
-        >
-          <i className="fa-solid fa-arrow-right"></i>
-        </button>
-        <button className="switchPage" onClick={() => setPage(numOfPages)}>
-          <i className="fa-solid fa-angles-right"></i>
-        </button>
-      </div>
+      <ListButtons handleSettingPages={curryPages(setPage, numOfPages)} />
     </Wrapper>
   );
 };
