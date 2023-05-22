@@ -1,21 +1,7 @@
 import React from "react";
 import PlayerPick from "./PlayerPick";
 import { styled } from "styled-components";
-
-function roleToIndex(role) {
-  switch (role) {
-    case "GK":
-      return 0;
-    case "DEF":
-      return 1;
-    case "MID":
-      return 2;
-    case "FWD":
-      return 3;
-    default:
-      break;
-  }
-}
+import { roleToIndex } from "./utils";
 
 const FirstEleven = ({ picks }) => {
   const picksByRole = picks.reduce((accumulator, value) => {
@@ -28,11 +14,6 @@ const FirstEleven = ({ picks }) => {
     return accumulator;
   }, []);
 
-  console.log(picksByRole);
-
-  // for (const role in picksByRole) {
-  //   console.log(picksByRole[role]);
-  // }
   // <a href="https://www.vecteezy.com/free-vector/football-pitch">
   //   Football Pitch Vectors by Vecteezy
   // </a>;
