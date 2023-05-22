@@ -2,8 +2,9 @@ import {
   getPlayersPositions,
   getTeamPicks,
   assignPositionsToPlayers,
-  axiosInstance,
 } from "./utils";
+
+import { axiosInstance } from "../../../utils";
 
 export const getManagerTeam = async (id) => {
   const { data: teamInfo } = await axiosInstance.get("/team", {

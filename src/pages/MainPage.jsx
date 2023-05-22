@@ -1,8 +1,8 @@
 import { useRef } from "react";
-import { getManagerTeam } from "../customHooks";
+import { getManagerTeam } from "../components/features/transfer_planner/customHooks";
 import { useDispatch } from "react-redux";
 import { picksAdded } from "../features/managerTeam/managerTeamSlice";
-import TransferPlanner from "../components/transfer_planner/TransferPlanner";
+import TransferPlanner from "../components/features/transfer_planner/TransferPlanner";
 import { Button, TextField, Box } from "@mui/material";
 
 const MainPage = () => {
