@@ -21,10 +21,16 @@ const PlayersListForm = () => {
     },
   });
 
-  const handleSelectOnChange = (e) => {
-    formik.setFieldValue("team", e.target.value);
+  const handleSelectOnChange = (e, type) => {
+    formik.setFieldValue(type, e.target.value);
 
-    dispatch(filterPlayers({ ...formik.values, team: e.target.value }));
+    if (type === "team") {
+      dispatch(filterPlayers({ ...formik.values, team: e.target.value }));
+    }
+
+    if (type === "name") {
+      dispatch(filterPlayers({ ...formik.values, name: e.target.value }));
+    }
   };
 
   return (
@@ -35,14 +41,14 @@ const PlayersListForm = () => {
           name="name"
           label="Name"
           value={formik.values.name}
-          onChange={formik.handleChange}
+          onChange={(e) => handleSelectOnChange(e, "name")}
         ></TextField>
         <Select
           id="team"
           name="team"
           label="Team"
           value={formik.values.team}
-          onChange={handleSelectOnChange}
+          onChange={(e) => handleSelectOnChange(e, "team")}
           data-testid="select-button"
         >
           <MenuItem value="ALL">-</MenuItem>

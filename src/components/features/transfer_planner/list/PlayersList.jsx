@@ -16,13 +16,23 @@ const PlayersList = () => {
   const status = useSelector((state) => state.players.status);
   const filters = useSelector((state) => state.players.filterOptions);
   const [page, setPage] = useState(1);
+
   const { pagesData, numOfPages } = paginate(
-    players.filter((player) => {
-      if (filters.team === "ALL") {
-        return player;
-      }
-      return player.team === filters.team;
-    })
+    players
+      .filter((player) => {
+        if (filters.team === "ALL") {
+          return player;
+        }
+        return player.team === filters.team;
+      })
+      .filter((player) => {
+        if (filters.name === "") {
+          return player;
+        }
+        return player.web_name
+          .toLowerCase()
+          .includes(filters.name.toLowerCase());
+      })
   );
 
   if (status === "loading") {
