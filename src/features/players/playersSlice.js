@@ -4,6 +4,7 @@ const initialState = {
   playersList: [],
   status: "idle",
   error: null,
+  filterOptions: { name: "", team: "ALL", role: "" },
 };
 
 export const fetchPlayers = createAsyncThunk(
@@ -17,7 +18,11 @@ export const fetchPlayers = createAsyncThunk(
 const playersSlice = createSlice({
   name: "players",
   initialState,
-  reducers: {},
+  reducers: {
+    filterPlayers(state, action) {
+      state.filterOptions = action.payload;
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(fetchPlayers.pending, (state, action) => {
@@ -33,5 +38,7 @@ const playersSlice = createSlice({
       });
   },
 });
+
+export const { filterPlayers } = playersSlice.actions;
 
 export default playersSlice.reducer;

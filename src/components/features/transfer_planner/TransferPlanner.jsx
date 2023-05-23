@@ -1,8 +1,8 @@
 import { useSelector } from "react-redux";
-import FirstEleven from "./FirstEleven";
-import Bench from "./Bench";
+import FirstEleven from "./pitch/FirstEleven";
+import Bench from "./pitch/Bench";
 import { styled } from "styled-components";
-import PlayerList from "./PlayersList";
+import PlayerList from "./list/PlayersList";
 import { Grid } from "@mui/material";
 
 const TransferPlanner = () => {

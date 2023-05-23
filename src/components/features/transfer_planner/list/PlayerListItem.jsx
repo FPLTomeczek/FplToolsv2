@@ -5,7 +5,9 @@ const PlayerListItem = ({ player }) => {
     <div key={player.id} className="player-list-item">
       <i className="fa-solid fa-shirt"></i>
       <p className="player-list-name">{player.web_name}</p>
-      <p className="player-list-number">{player.team}</p>
+      <p className="player-list-number" data-testid="player-team-item">
+        {player.team}
+      </p>
       <p className="player-list-number">{player.element_type}</p>
       <p className="player-list-number">{player.total_points}</p>
       <p className="player-list-number">{player.now_cost / 10}</p>

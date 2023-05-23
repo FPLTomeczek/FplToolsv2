@@ -2,20 +2,28 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { styled } from "styled-components";
 import { Typography } from "@mui/material";
-import { paginate, handleSettingPages } from "./utils";
+import { paginate, handleSettingPages } from "../utils";
 import PlayersListForm from "./PlayersListForm";
-import PlayerListItem from "./PlayerListItem";
-import ListButtons from "../../list/ListButtons";
+import ListButtons from "./ListButtons";
+import PlayerListItems from "./PlayerListItems";
+
+function curryPages(callback, numOfPages) {
+  return (type) => handleSettingPages(callback, type, numOfPages);
+}
 
 const PlayersList = () => {
   const players = useSelector((state) => state.players.playersList);
   const status = useSelector((state) => state.players.status);
+  const filters = useSelector((state) => state.players.filterOptions);
   const [page, setPage] = useState(1);
-  const { pagesData, numOfPages } = paginate(players);
-
-  function curryPages(callback, numOfPages) {
-    return (type) => handleSettingPages(callback, type, numOfPages);
-  }
+  const { pagesData, numOfPages } = paginate(
+    players.filter((player) => {
+      if (filters.team === "ALL") {
+        return player;
+      }
+      return player.team === filters.team;
+    })
+  );
 
   if (status === "loading") {
     return <p>Loading...</p>;
@@ -35,19 +43,7 @@ const PlayersList = () => {
         Page {page} / {numOfPages}
       </Typography>
       <PlayersListForm />
-      <div className="player-list-header">
-        <i></i>
-        <p className="player-list-name">Name</p>
-        <p className="player-list-number">Team</p>
-        <p className="player-list-number">Role</p>
-        <p className="player-list-number">Pts</p>
-        <p className="player-list-number">£</p>
-      </div>
-      {players &&
-        pagesData[page - 1].map((player) => {
-          const { id } = player;
-          return <PlayerListItem player={player} key={id} />;
-        })}
+      <PlayerListItems pagesData={pagesData} page={page} />
       <ListButtons handleSettingPages={curryPages(setPage, numOfPages)} />
     </Wrapper>
   );
