@@ -1,20 +1,12 @@
 import { getManagerTeam } from "../customHooks";
 import { it, expect, describe } from "vitest";
 import store from "../../../../app/store";
-import {
-  render,
-  screen,
-  fireEvent,
-  within,
-  waitFor,
-} from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 
 import { Provider } from "react-redux";
 
-import App from "../../../../App";
 import PlayersList from "../list/PlayersList";
 import configureStore from "redux-mock-store";
-import playersReducer from "../../../../features/players/playersSlice";
 
 it("team players are fetched", async () => {
   const data = await getManagerTeam(7770);
@@ -86,5 +78,3 @@ describe("list filtering", () => {
     );
   });
 });
-
-// test list navigation
