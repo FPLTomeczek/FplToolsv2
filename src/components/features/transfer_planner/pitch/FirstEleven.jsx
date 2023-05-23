@@ -1,7 +1,7 @@
 import React from "react";
 import PlayerPick from "./PlayerPick";
 import { styled } from "styled-components";
-import { roleToIndex } from "./utils";
+import { roleToIndex } from "../utils";
 
 const FirstEleven = ({ picks }) => {
   const picksByRole = picks.reduce((accumulator, value) => {

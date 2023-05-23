@@ -1,16 +1,18 @@
 import React from "react";
 import {
-  FormControl,
-  InputLabel,
-  Input,
   Select,
   MenuItem,
-  Box,
   TextField,
+  InputLabel,
+  FormControl,
 } from "@mui/material";
-import { Formik, Form, useFormik } from "formik";
+import { useFormik } from "formik";
+import { useDispatch } from "react-redux";
+import { filterPlayers } from "../../../../features/players/playersSlice";
 
 const PlayersListForm = () => {
+  const dispatch = useDispatch();
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -19,9 +21,15 @@ const PlayersListForm = () => {
     },
   });
 
+  const handleSelectOnChange = (e) => {
+    formik.setFieldValue("team", e.target.value);
+
+    dispatch(filterPlayers({ ...formik.values, team: e.target.value }));
+  };
+
   return (
     <div>
-      <form>
+      <FormControl>
         <TextField
           id="name"
           name="name"
@@ -34,7 +42,8 @@ const PlayersListForm = () => {
           name="team"
           label="Team"
           value={formik.values.team}
-          onChange={formik.handleChange}
+          onChange={handleSelectOnChange}
+          data-testid="select-button"
         >
           <MenuItem value="ALL">-</MenuItem>
           <MenuItem value="ARS">ARS</MenuItem>
@@ -58,28 +67,8 @@ const PlayersListForm = () => {
           <MenuItem value="WHU">WHU</MenuItem>
           <MenuItem value="WOL">WOL</MenuItem>
         </Select>
-      </form>
+      </FormControl>
     </div>
-    // <FormControl sx={{ display: "flex" }}>
-    //   <Box xs={4}>
-    //     <InputLabel htmlFor="my-input">Player name</InputLabel>
-    //     <Input id="name" />
-    //   </Box>
-    //   <Box >
-    //     <InputLabel id="demo-simple-select-label">Age</InputLabel>
-    //     <Select
-    //       labelId="demo-simple-select-label"
-    //       id="demo-simple-select"
-    //       // value={age}
-    //       label="Age"
-    //       // onChange={handleChange}
-    //     >
-    //       <MenuItem value={10}>Ten</MenuItem>
-    //       <MenuItem value={20}>Twenty</MenuItem>
-    //       <MenuItem value={30}>Thirty</MenuItem>
-    //     </Select>
-    //   </Box>
-    // </FormControl>
   );
 };
 
