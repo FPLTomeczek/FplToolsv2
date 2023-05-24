@@ -3,7 +3,7 @@ import PlayerListItem from "./PlayerListItem";
 
 const PlayerListItems = ({ pagesData, page }) => {
   return (
-    <div className="player-list-items" data-testid="player-list-item">
+    <div className="player-list-items" data-testid="player-list-items">
       <div className="player-list-header">
         <i></i>
         <p className="player-list-name">Name</p>
