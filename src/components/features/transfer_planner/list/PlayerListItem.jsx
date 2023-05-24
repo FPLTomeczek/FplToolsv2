@@ -9,8 +9,12 @@ const PlayerListItem = ({ player }) => {
         {player.team}
       </p>
       <p className="player-list-number">{player.element_type}</p>
-      <p className="player-list-number">{player.total_points}</p>
-      <p className="player-list-number">{player.now_cost / 10}</p>
+      <p className="player-list-number" data-testid="player-points-item">
+        {player.total_points}
+      </p>
+      <p className="player-list-number" data-testid="player-price-item">
+        {player.now_cost / 10}
+      </p>
     </div>
   );
 };

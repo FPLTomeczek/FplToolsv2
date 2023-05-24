@@ -51,7 +51,7 @@ const PlayersList = () => {
       <Typography variant="h3">
         Page {page} / {numOfPages}
       </Typography>
-      <PlayersListForm />
+      <PlayersListForm setPage={setPage} />
       <PlayerListItems
         pagesData={pagesData}
         page={page}
