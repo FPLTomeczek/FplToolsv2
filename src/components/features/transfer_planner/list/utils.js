@@ -10,7 +10,18 @@ export const filterPlayers = (players, filters) => {
       if (filters.name === "") {
         return player;
       }
-      return player.web_name.toLowerCase().includes(filters.name.toLowerCase());
+      return player.web_name
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]|/g, "")
+        .replace(/\u0142/g, "l")
+        .includes(
+          filters.name
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]|/g, "")
+            .replace(/\u0142/g, "l")
+        );
     })
     .filter((player) => {
       if (filters.role === "ALL") {
