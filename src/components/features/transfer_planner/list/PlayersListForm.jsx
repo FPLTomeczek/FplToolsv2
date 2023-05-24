@@ -47,6 +47,8 @@ const PlayersListForm = () => {
           value={formik.values.name}
           onChange={(e) => handleSelectOnChange(e, "name")}
         ></TextField>
+      </FormControl>
+      <FormControl>
         <Select
           id="team"
           name="team"
@@ -62,6 +64,8 @@ const PlayersListForm = () => {
             </MenuItem>
           ))}
         </Select>
+      </FormControl>
+      <FormControl>
         <Select
           id="role"
           name="role"
