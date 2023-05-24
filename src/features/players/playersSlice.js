@@ -1,10 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { axiosInstance } from "../../utils";
+
 const initialState = {
   playersList: [],
   status: "idle",
   error: null,
-  filterOptions: { name: "", team: "ALL", role: "" },
+  filterOptions: { name: "", team: "ALL", role: "ALL" },
+  sortOptions: { type: "price", value: "desc" },
 };
 
 export const fetchPlayers = createAsyncThunk(
@@ -21,6 +23,9 @@ const playersSlice = createSlice({
   reducers: {
     filterPlayers(state, action) {
       state.filterOptions = action.payload;
+    },
+    sortPlayers(state, action) {
+      state.sortOptions = action.payload;
     },
   },
   extraReducers(builder) {
@@ -39,6 +44,6 @@ const playersSlice = createSlice({
   },
 });
 
-export const { filterPlayers } = playersSlice.actions;
+export const { filterPlayers, sortPlayers } = playersSlice.actions;
 
 export default playersSlice.reducer;

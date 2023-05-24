@@ -1,8 +1,14 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { styled } from "styled-components";
 import { Typography } from "@mui/material";
-import { paginate, handleSettingPages } from "../utils";
+import {
+  paginate,
+  filterPlayers,
+  handleSettingPages,
+  sortPlayers,
+} from "./utils";
+import { sortPlayers as sortPlayersSlice } from "../../../../features/players/playersSlice";
 import PlayersListForm from "./PlayersListForm";
 import ListButtons from "./ListButtons";
 import PlayerListItems from "./PlayerListItems";
@@ -15,25 +21,18 @@ const PlayersList = () => {
   const players = useSelector((state) => state.players.playersList);
   const status = useSelector((state) => state.players.status);
   const filters = useSelector((state) => state.players.filterOptions);
+  const sortOptions = useSelector((state) => state.players.sortOptions);
+
   const [page, setPage] = useState(1);
+  const dispatch = useDispatch();
 
   const { pagesData, numOfPages } = paginate(
-    players
-      .filter((player) => {
-        if (filters.team === "ALL") {
-          return player;
-        }
-        return player.team === filters.team;
-      })
-      .filter((player) => {
-        if (filters.name === "") {
-          return player;
-        }
-        return player.web_name
-          .toLowerCase()
-          .includes(filters.name.toLowerCase());
-      })
+    sortPlayers(filterPlayers(players, filters), sortOptions)
   );
+
+  const handleSortChange = (sortOptions) => {
+    dispatch(sortPlayersSlice({ ...sortOptions }));
+  };
 
   if (status === "loading") {
     return <p>Loading...</p>;
@@ -53,7 +52,12 @@ const PlayersList = () => {
         Page {page} / {numOfPages}
       </Typography>
       <PlayersListForm />
-      <PlayerListItems pagesData={pagesData} page={page} />
+      <PlayerListItems
+        pagesData={pagesData}
+        page={page}
+        sortOptions={sortOptions}
+        handleSortChange={handleSortChange}
+      />
       <ListButtons handleSettingPages={curryPages(setPage, numOfPages)} />
     </Wrapper>
   );
@@ -80,6 +84,14 @@ const Wrapper = styled.div`
   .player-list-item > i,
   .player-list-header > i {
     min-width: 10%;
+  }
+  .player-list-number {
+    display: flex;
+    align-items: center;
+  }
+  #player-list-points,
+  #player-list-price {
+    cursor: pointer;
   }
   .switchPage {
     border-radius: 50%;
