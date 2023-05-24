@@ -1,14 +1,9 @@
 import React from "react";
-import {
-  Select,
-  MenuItem,
-  TextField,
-  InputLabel,
-  FormControl,
-} from "@mui/material";
+import { Select, MenuItem, TextField, FormControl } from "@mui/material";
 import { useFormik } from "formik";
 import { useDispatch } from "react-redux";
 import { filterPlayers } from "../../../../features/players/playersSlice";
+import { teamsList, roles } from "./data";
 
 const PlayersListForm = () => {
   const dispatch = useDispatch();
@@ -17,19 +12,28 @@ const PlayersListForm = () => {
     initialValues: {
       name: "",
       team: "ALL",
-      role: "",
+      role: "ALL",
     },
   });
 
   const handleSelectOnChange = (e, type) => {
     formik.setFieldValue(type, e.target.value);
 
-    if (type === "team") {
-      dispatch(filterPlayers({ ...formik.values, team: e.target.value }));
-    }
-
-    if (type === "name") {
-      dispatch(filterPlayers({ ...formik.values, name: e.target.value }));
+    switch (type) {
+      case "team":
+        return dispatch(
+          filterPlayers({ ...formik.values, team: e.target.value })
+        );
+      case "name":
+        return dispatch(
+          filterPlayers({ ...formik.values, name: e.target.value })
+        );
+      case "role":
+        return dispatch(
+          filterPlayers({ ...formik.values, role: e.target.value })
+        );
+      default:
+        break;
     }
   };
 
@@ -52,26 +56,25 @@ const PlayersListForm = () => {
           data-testid="select-button"
         >
           <MenuItem value="ALL">-</MenuItem>
-          <MenuItem value="ARS">ARS</MenuItem>
-          <MenuItem value="AVL">AVL</MenuItem>
-          <MenuItem value="BOU">BOU</MenuItem>
-          <MenuItem value="BRE">BRE</MenuItem>
-          <MenuItem value="BHA">BHA</MenuItem>
-          <MenuItem value="CFC">CFC</MenuItem>
-          <MenuItem value="CRY">CRY</MenuItem>
-          <MenuItem value="EVE">EVE</MenuItem>
-          <MenuItem value="FUL">FUL</MenuItem>
-          <MenuItem value="LEE">LEE</MenuItem>
-          <MenuItem value="LEI">LEI</MenuItem>
-          <MenuItem value="LIV">LIV</MenuItem>
-          <MenuItem value="MCI">MCI</MenuItem>
-          <MenuItem value="MUN">MUN</MenuItem>
-          <MenuItem value="NEW">NEW</MenuItem>
-          <MenuItem value="NFO">NFO</MenuItem>
-          <MenuItem value="SOU">SOU</MenuItem>
-          <MenuItem value="TOT">TOT</MenuItem>
-          <MenuItem value="WHU">WHU</MenuItem>
-          <MenuItem value="WOL">WOL</MenuItem>
+          {teamsList.map((team) => (
+            <MenuItem value={team} key={team}>
+              {team}
+            </MenuItem>
+          ))}
+        </Select>
+        <Select
+          id="role"
+          name="role"
+          label="Role"
+          value={formik.values.role}
+          onChange={(e) => handleSelectOnChange(e, "role")}
+        >
+          <MenuItem value="ALL">-</MenuItem>
+          {roles.map((role) => (
+            <MenuItem value={role.role} key={role.role}>
+              {role.value}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
     </div>

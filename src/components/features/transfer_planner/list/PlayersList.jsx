@@ -33,6 +33,12 @@ const PlayersList = () => {
           .toLowerCase()
           .includes(filters.name.toLowerCase());
       })
+      .filter((player) => {
+        if (filters.role === "ALL") {
+          return player;
+        }
+        return player.element_type === filters.role;
+      })
   );
 
   if (status === "loading") {

@@ -4,7 +4,7 @@ const initialState = {
   playersList: [],
   status: "idle",
   error: null,
-  filterOptions: { name: "", team: "ALL", role: "" },
+  filterOptions: { name: "", team: "ALL", role: "ALL" },
 };
 
 export const fetchPlayers = createAsyncThunk(
