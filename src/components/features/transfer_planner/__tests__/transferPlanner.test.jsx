@@ -1,80 +1,101 @@
 import { getManagerTeam } from "../customHooks";
 import { it, expect, describe } from "vitest";
-import store from "../../../../app/store";
-import { render, screen } from "@testing-library/react";
-
-import { Provider } from "react-redux";
-
+import { screen } from "@testing-library/react";
+import { renderComponent, proxyHandler } from "./utils";
 import PlayersList from "../list/PlayersList";
 import configureStore from "redux-mock-store";
 
-it("team players are fetched", async () => {
-  const data = await getManagerTeam(7770);
-  expect(data).toHaveLength(15);
+describe("fetching players", () => {
+  it("team players are fetched", async () => {
+    const data = await getManagerTeam(7770);
+    expect(data).toHaveLength(15);
+  });
 });
 
 describe("list filtering", () => {
   const mockStore = configureStore();
-  it("should return players from selected team", async () => {
-    const store = mockStore({
-      players: {
-        playersList: [
-          {
-            _id: "6464be106deb8d3ee8afad07",
-            id: 81,
-            web_name: "Raya",
-            goals: 0,
-            assists: 0,
-            team: "BRE",
-            element_type: "GK",
-            total_points: 156,
-            now_cost: 48,
-            __v: 0,
-            position: 0,
-          },
-          {
-            _id: "6464be106deb8d3ee8afaeac",
-            id: 357,
-            web_name: "Trippier",
-            goals: 0,
-            assists: 7,
-            team: "NEW",
-            element_type: "DEF",
-            total_points: 179,
-            now_cost: 61,
-            __v: 0,
-            position: 1,
-          },
-          {
-            _id: "6464be106deb8d3ee8afad44",
-            id: 586,
-            web_name: "Estupiñán",
-            goals: 0,
-            assists: 7,
-            team: "BHA",
-            element_type: "DEF",
-            total_points: 123,
-            now_cost: 49,
-            __v: 0,
-            position: 2,
-          },
-        ],
-        status: "success",
-        error: null,
-        filterOptions: { name: "", team: "BRE", role: "" },
-      },
+
+  const mockPlayers = [
+    { id: 1, web_name: "Raya", team: "BRE" },
+    { id: 2, web_name: "Trippier", team: "NEW" },
+    { id: 3, web_name: "Estupiñán", team: "BHA" },
+  ];
+
+  const initialState = {
+    players: {
+      playersList: [
+        new Proxy(mockPlayers[0], proxyHandler),
+        new Proxy(mockPlayers[1], proxyHandler),
+        new Proxy(mockPlayers[2], proxyHandler),
+      ],
+      status: "success",
+      error: null,
+      filterOptions: { name: "", team: "BRE", role: "" },
+    },
+  };
+
+  describe("team filtering", () => {
+    it("should return players from selected team", () => {
+      const store = mockStore(initialState);
+
+      renderComponent(<PlayersList />, store);
+
+      const playerListItem = screen.getAllByTestId("player-team-item");
+
+      expect(playerListItem.every((item) => item.textContent === "BRE")).toBe(
+        true
+      );
     });
 
-    render(
-      <Provider store={store}>
-        <PlayersList />
-      </Provider>
-    );
+    it("should not return any player when player doesnt belong to team", () => {
+      const { players } = initialState;
 
-    const playerListItem = screen.getAllByTestId("player-team-item");
+      const store = mockStore({
+        ...initialState,
+        players: {
+          ...players,
+          filterOptions: { name: "", team: "ARS", role: "" },
+        },
+      });
 
-    expect(playerListItem.every((item) => item.textContent === "BRE")).toBe(
-      true
-    );
+      renderComponent(<PlayersList />, store);
+
+      expect(screen.queryAllByTestId("player-team-item")).toHaveLength(0);
+    });
+  });
+
+  describe("name filtering", () => {
+    it(`should return player that contains string "TRIP" `, () => {
+      const { players } = initialState;
+
+      const store = mockStore({
+        ...initialState,
+        players: {
+          ...players,
+          filterOptions: { name: "TRIP", team: "ALL", role: "" },
+        },
+      });
+
+      renderComponent(<PlayersList />, store);
+
+      expect(screen.queryAllByTestId("player-team-item")).toHaveLength(1);
+      expect(screen.getByText(/trippier/i)).toBeInTheDocument();
+    });
+
+    it(`should not return player that contains string "RAYE" `, () => {
+      const { players } = initialState;
+
+      const store = mockStore({
+        ...initialState,
+        players: {
+          ...players,
+          filterOptions: { name: "RAYE", team: "ALL", role: "" },
+        },
+      });
+
+      renderComponent(<PlayersList />, store);
+
+      expect(screen.queryAllByTestId("player-team-item")).toHaveLength(0);
+    });
   });
 });
