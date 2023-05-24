@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { filterPlayers } from "../../../../features/players/playersSlice";
 import { teamsList, roles } from "./data";
 
-const PlayersListForm = () => {
+const PlayersListForm = ({ setPage }) => {
   const dispatch = useDispatch();
 
   const formik = useFormik({
@@ -18,6 +18,7 @@ const PlayersListForm = () => {
 
   const handleSelectOnChange = (e, type) => {
     formik.setFieldValue(type, e.target.value);
+    setPage(1);
 
     switch (type) {
       case "team":
