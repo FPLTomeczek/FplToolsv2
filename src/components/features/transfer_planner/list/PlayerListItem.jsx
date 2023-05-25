@@ -6,6 +6,14 @@ import { addPick } from "../../../../features/managerTeam/managerTeamSlice";
 
 const PlayerListItem = ({ player }) => {
   const managerPicks = useSelector((state) => state.managerTeam.picks);
+
+  const availablePositions = [
+    ...new Set(
+      managerPicks
+        .filter((pick) => pick.web_name === "Blank")
+        .map((pick) => pick.element_type)
+    ),
+  ];
   let color = teamsList.find((team) => team.value === player.team).color;
 
   const dispatch = useDispatch();
@@ -17,7 +25,8 @@ const PlayerListItem = ({ player }) => {
   return (
     <div key={player.id} className="player-list-item">
       <div className="player-add-button-color">
-        {managerPicks.find((pick) => pick.id === player.id) ? (
+        {managerPicks.find((pick) => pick.id === player.id) ||
+        !availablePositions.includes(player.element_type) ? (
           <button style={{ display: "flex", alignItems: "center" }} disabled>
             <AddCircleIcon color="disabled" />
           </button>
