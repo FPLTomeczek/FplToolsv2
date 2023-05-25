@@ -1,12 +1,18 @@
 import React from "react";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { teamsList } from "./data";
+import { addPick } from "../../../../features/managerTeam/managerTeamSlice";
 
 const PlayerListItem = ({ player }) => {
   const managerPicks = useSelector((state) => state.managerTeam.picks);
-
   let color = teamsList.find((team) => team.value === player.team).color;
+
+  const dispatch = useDispatch();
+
+  const addPlayerToTeam = () => {
+    dispatch(addPick(player));
+  };
 
   return (
     <div key={player.id} className="player-list-item">
@@ -16,7 +22,10 @@ const PlayerListItem = ({ player }) => {
             <AddCircleIcon color="disabled" />
           </button>
         ) : (
-          <button style={{ display: "flex", alignItems: "center" }}>
+          <button
+            style={{ display: "flex", alignItems: "center", cursor: "pointer" }}
+            onClick={addPlayerToTeam}
+          >
             <AddCircleIcon color="success" />
           </button>
         )}

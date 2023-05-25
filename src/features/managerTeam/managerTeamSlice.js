@@ -16,7 +16,13 @@ const managerTeamSlice = createSlice({
     },
     removePick(state, action) {
       const { index, element_type } = action.payload;
-      state.removedPicks.push(state.picks[index]);
+      if (
+        !state.removedPicks.find(
+          (removedPick) => removedPick.position === index
+        )
+      ) {
+        state.removedPicks.push(state.picks[index]);
+      }
       state.picks[index] = {
         web_name: "Blank",
         element_type,
@@ -32,10 +38,24 @@ const managerTeamSlice = createSlice({
       const index = state.removedPicks.indexOf(retrievedPick);
       state.removedPicks.splice(index, 1);
     },
+    addPick(state, action) {
+      const newPlayer = action.payload;
+      const blankPlayerMatch = state.picks.find(
+        (pick) =>
+          pick.element_type === newPlayer.element_type &&
+          pick.web_name == "Blank"
+      );
+      if (blankPlayerMatch) {
+        state.picks[blankPlayerMatch.position] = {
+          ...newPlayer,
+          position: blankPlayerMatch.position,
+        };
+      }
+    },
   },
 });
 
-export const { picksAdded, removePick, retrievePick } =
+export const { picksAdded, removePick, retrievePick, addPick } =
   managerTeamSlice.actions;
 
 export default managerTeamSlice.reducer;
