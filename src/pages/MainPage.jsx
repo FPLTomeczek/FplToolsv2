@@ -14,6 +14,7 @@ const MainPage = () => {
     const id = inputRef.current.value;
     e.preventDefault();
     const players = await getManagerTeam(id);
+    localStorage.setItem("fetchedPlayers", JSON.stringify(players));
     dispatch(picksAdded(players));
   };
 

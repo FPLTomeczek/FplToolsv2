@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  picks: [],
+  picks: JSON.parse(localStorage.getItem("fetchedPlayers")) || [],
   value: 0,
   freeTransfers: 0,
   removedPicks: [],
