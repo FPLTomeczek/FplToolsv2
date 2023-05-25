@@ -14,7 +14,7 @@ const PlayerListItems = ({
   return (
     <div className="player-list-items" data-testid="player-list-items">
       <div className="player-list-header">
-        <i></i>
+        <div className="player-add-button-color"></div>
         <p className="player-list-name">Name</p>
         <p className="player-list-number">Team</p>
         <p className="player-list-number">Role</p>

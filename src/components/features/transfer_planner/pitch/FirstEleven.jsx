@@ -24,7 +24,7 @@ const FirstEleven = ({ picks }) => {
           return (
             <div key={ind} className="picks-row">
               {players.map((player) => {
-                return <PlayerPick key={player.id} name={player.web_name} />;
+                return <PlayerPick key={player.position} player={player} />;
               })}
             </div>
           );

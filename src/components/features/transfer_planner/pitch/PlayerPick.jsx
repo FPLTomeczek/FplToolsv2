@@ -1,10 +1,44 @@
 import React from "react";
 import { styled } from "styled-components";
+import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
+import CancelIcon from "@mui/icons-material/Cancel";
+import ArrowCircleLeftRoundedIcon from "@mui/icons-material/ArrowCircleLeftRounded";
+import { useDispatch } from "react-redux";
+import {
+  removePick,
+  retrievePick,
+} from "../../../../features/managerTeam/managerTeamSlice";
 
-const PlayerPick = ({ name }) => {
+const PlayerPick = ({ player }) => {
+  const { web_name: name, position: index, element_type } = player;
+
+  const dispatch = useDispatch();
+
+  const removePlayer = () => {
+    dispatch(removePick({ index, element_type }));
+  };
+
+  const retrievePlayer = () => {
+    dispatch(retrievePick(index));
+  };
+
   return (
     <Wrapper>
       <div className="player-pick">
+        <div className="buttons">
+          <button>
+            <ChangeCircleIcon color="warning" />
+          </button>
+          {name !== "Blank" ? (
+            <button onClick={removePlayer}>
+              <CancelIcon color="error" />
+            </button>
+          ) : (
+            <button onClick={retrievePlayer}>
+              <ArrowCircleLeftRoundedIcon color="success" />
+            </button>
+          )}
+        </div>
         <i className="fa-solid fa-shirt"></i>
         <p>{name}</p>
       </div>
@@ -20,7 +54,18 @@ const Wrapper = styled.div`
   }
   .player-pick > i {
     font-size: 4rem;
-    color: linear-gradient(to right, green 0%, green 80%, red 80%, red 100%);
+  }
+  .buttons {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.25rem;
+  }
+  .buttons > * {
+    cursor: pointer;
+  }
+  p {
+    background-color: white;
+    padding: 0.25rem;
   }
 `;
 
