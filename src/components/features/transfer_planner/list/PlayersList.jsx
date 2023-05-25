@@ -81,10 +81,14 @@ const Wrapper = styled.div`
   .player-list-name {
     min-width: 50%;
   }
-  .player-list-item > i,
-  .player-list-header > i {
+  .player-add-button-color {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
     min-width: 10%;
   }
+
   .player-list-number {
     display: flex;
     align-items: center;
@@ -104,6 +108,12 @@ const Wrapper = styled.div`
     justify-content: center;
     gap: 1rem;
     padding: 0.5rem 0;
+  }
+  .team-color {
+    width: 20px;
+    border-radius: 50%;
+    background-color: black;
+    height: 20px;
   }
 `;
 

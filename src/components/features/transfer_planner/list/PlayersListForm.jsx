@@ -60,8 +60,8 @@ const PlayersListForm = ({ setPage }) => {
         >
           <MenuItem value="ALL">-</MenuItem>
           {teamsList.map((team) => (
-            <MenuItem value={team} key={team}>
-              {team}
+            <MenuItem value={team.value} key={team.value}>
+              {team.value}
             </MenuItem>
           ))}
         </Select>

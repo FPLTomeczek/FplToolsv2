@@ -6,7 +6,7 @@ const Bench = ({ picks }) => {
   return (
     <Wrapper>
       {picks.map((player) => {
-        return <PlayerPick key={player.id} name={player.web_name} />;
+        return <PlayerPick key={player.id} player={player} />;
       })}
     </Wrapper>
   );
