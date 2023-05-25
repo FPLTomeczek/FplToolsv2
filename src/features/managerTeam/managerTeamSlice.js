@@ -20,18 +20,18 @@ const managerTeamSlice = createSlice({
       state.picks = action.payload;
     },
     removePick(state, action) {
-      const { index, element_type } = action.payload;
+      const { position, element_type } = action.payload;
       if (
         !state.removedPicks.find(
-          (removedPick) => removedPick.position === index
+          (removedPick) => removedPick.position === position
         )
       ) {
-        state.removedPicks.push(state.picks[index]);
+        state.removedPicks.push(state.picks[position]);
       }
-      state.picks[index] = {
+      state.picks[position] = {
         web_name: "Blank",
         element_type,
-        position: index,
+        position,
       };
     },
     retrievePick(state, action) {
