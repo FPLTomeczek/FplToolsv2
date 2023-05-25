@@ -23,7 +23,7 @@ const FirstEleven = ({ picks }) => {
         {picksByRole.map((players, ind) => {
           return (
             <div key={ind} className="picks-row">
-              {players.map((player) => {
+              {players.map((player, index) => {
                 return <PlayerPick key={player.position} player={player} />;
               })}
             </div>

@@ -1,10 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { FIRST_ELEVEN_PLAYERS } from "../../constants";
+import { isEmpty } from "lodash";
 
 const initialState = {
   picks: JSON.parse(localStorage.getItem("fetchedPlayers")) || [],
+  initialPicks: JSON.parse(localStorage.getItem("fetchedPlayers")),
   value: 0,
   freeTransfers: 0,
   removedPicks: [],
+  playerToChange: {},
+  playersAvailableToChange: [],
 };
 
 const managerTeamSlice = createSlice({
@@ -52,10 +57,25 @@ const managerTeamSlice = createSlice({
         };
       }
     },
+    makeChange(state, action) {
+      const id = action.payload;
+      const index = state.picks.map((pick) => pick.id).indexOf(id);
+
+      if (!isEmpty(state.playerToChange)) {
+        const playerToChangeIndex = state.picks
+          .map((pick) => pick.id)
+          .indexOf(state.playerToChange.id);
+        state.picks[playerToChangeIndex] = state.picks[index];
+        state.picks[index] = state.playerToChange;
+        state.playerToChange = {};
+        return;
+      }
+      state.playerToChange = state.picks[index];
+    },
   },
 });
 
-export const { picksAdded, removePick, retrievePick, addPick } =
+export const { picksAdded, removePick, retrievePick, addPick, makeChange } =
   managerTeamSlice.actions;
 
 export default managerTeamSlice.reducer;

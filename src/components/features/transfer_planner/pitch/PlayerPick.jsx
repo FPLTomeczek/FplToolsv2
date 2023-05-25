@@ -3,30 +3,35 @@ import { styled } from "styled-components";
 import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import ArrowCircleLeftRoundedIcon from "@mui/icons-material/ArrowCircleLeftRounded";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   removePick,
   retrievePick,
+  makeChange,
 } from "../../../../features/managerTeam/managerTeamSlice";
 
 const PlayerPick = ({ player }) => {
-  const { web_name: name, position: index, element_type } = player;
+  const { web_name: name, position, element_type } = player;
 
   const dispatch = useDispatch();
 
   const removePlayer = () => {
-    dispatch(removePick({ index, element_type }));
+    dispatch(removePick({ position, element_type }));
   };
 
   const retrievePlayer = () => {
-    dispatch(retrievePick(index));
+    dispatch(retrievePick(position));
+  };
+
+  const enableChange = () => {
+    dispatch(makeChange(player.id));
   };
 
   return (
     <Wrapper>
       <div className="player-pick">
         <div className="buttons">
-          <button>
+          <button onClick={enableChange}>
             <ChangeCircleIcon color="warning" />
           </button>
           {name !== "Blank" ? (
