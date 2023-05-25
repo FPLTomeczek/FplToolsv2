@@ -8,7 +8,7 @@ import { Grid } from "@mui/material";
 const TransferPlanner = () => {
   const managerTeam = useSelector((state) => state.managerTeam);
   const picks = managerTeam.picks;
-
+  console.log(picks);
   return (
     <Wrapper>
       <Grid container mt={2}>
