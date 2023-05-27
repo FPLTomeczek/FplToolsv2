@@ -20,3 +20,13 @@ export const getManagerTeam = async (id) => {
     (a, b) => a.position - b.position
   );
 };
+
+export const getManagerChips = async (id) => {
+  const {
+    data: { chips },
+  } = await axiosInstance.get("/manager-chips", {
+    params: { userID: id },
+  });
+
+  return chips;
+};

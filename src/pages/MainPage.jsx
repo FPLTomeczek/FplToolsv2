@@ -1,7 +1,10 @@
 import { useRef } from "react";
-import { getManagerTeam } from "../components/features/transfer_planner/customHooks";
+import {
+  getManagerTeam,
+  getManagerChips,
+} from "../components/features/transfer_planner/customHooks";
 import { useDispatch } from "react-redux";
-import { picksAdded } from "../features/managerTeam/managerTeamSlice";
+import { addPicks, addChips } from "../features/managerTeam/managerTeamSlice";
 import TransferPlanner from "../components/features/transfer_planner/TransferPlanner";
 import { Button, TextField, Box } from "@mui/material";
 
@@ -14,8 +17,12 @@ const MainPage = () => {
     const id = inputRef.current.value;
     e.preventDefault();
     const players = await getManagerTeam(id);
+    const chips = await getManagerChips(id);
+    console.log(players);
+    console.log(chips);
     localStorage.setItem("fetchedPlayers", JSON.stringify(players));
-    dispatch(picksAdded(players));
+    dispatch(addPicks(players));
+    dispatch(addChips(chips));
   };
 
   return (

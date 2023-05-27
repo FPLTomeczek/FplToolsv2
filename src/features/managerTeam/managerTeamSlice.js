@@ -10,14 +10,18 @@ const initialState = {
   removedPicks: [],
   playerToChange: {},
   playersAvailableToChange: [],
+  chips: [],
 };
 
 const managerTeamSlice = createSlice({
   name: "managerTeam",
   initialState,
   reducers: {
-    picksAdded(state, action) {
+    addPicks(state, action) {
       state.picks = action.payload;
+    },
+    addChips(state, action) {
+      state.chips = action.payload;
     },
     removePick(state, action) {
       const { position, element_type } = action.payload;
@@ -75,7 +79,13 @@ const managerTeamSlice = createSlice({
   },
 });
 
-export const { picksAdded, removePick, retrievePick, addPick, makeChange } =
-  managerTeamSlice.actions;
+export const {
+  addPicks,
+  removePick,
+  retrievePick,
+  addPick,
+  makeChange,
+  addChips,
+} = managerTeamSlice.actions;
 
 export default managerTeamSlice.reducer;
