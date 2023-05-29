@@ -35,32 +35,38 @@ const managerTeamSlice = createSlice({
       state.transfersHistory = action.payload;
     },
     removePick(state, action) {
-      const { position, element_type, sellCost = 0, cost } = action.payload;
-      if (
-        !state.removedPicks.find(
-          (removedPick) => removedPick.position === position
-        )
-      ) {
+      const { id, position, element_type, sellCost = 0, cost } = action.payload;
+      const removedPickIndex = state.picks.indexOf(
+        state.picks.find((pick) => pick.id === id)
+      );
+      console.log(removedPickIndex);
+      if (!state.removedPicks.find((removedPick) => removedPick.id === id)) {
         state.transfers -= 1;
-        state.removedPicks.push(state.picks[position]);
+        state.removedPicks.push({
+          ...state.picks[removedPickIndex],
+          removedPickIndex,
+        });
         state.bank += sellCost;
       } else {
         state.bank += cost;
       }
-      state.picks[position] = {
+      state.picks[removedPickIndex] = {
         web_name: "Blank",
         element_type,
         position,
+        removedPickIndex,
       };
     },
     retrievePick(state, action) {
-      const position = action.payload;
+      const index = action.payload;
+      console.log(index);
       const retrievedPick = state.removedPicks.find(
-        (removedPick) => removedPick.position === position
+        (removedPick) => removedPick.removedPickIndex === index
       );
-      state.picks[position] = retrievedPick;
-      const index = state.removedPicks.indexOf(retrievedPick);
-      state.removedPicks.splice(index, 1);
+      console.log(retrievedPick);
+      state.picks[index] = { ...retrievedPick };
+      const removedPickIndex = state.removedPicks.indexOf(retrievedPick);
+      state.removedPicks.splice(removedPickIndex, 1);
       state.bank -= retrievedPick.sellCost;
       state.transfers += 1;
     },
@@ -72,9 +78,8 @@ const managerTeamSlice = createSlice({
           pick.web_name == "Blank"
       );
       if (blankPlayerMatch) {
-        state.picks[blankPlayerMatch.position] = {
+        state.picks[blankPlayerMatch.removedPickIndex] = {
           ...newPlayer,
-          position: blankPlayerMatch.position,
         };
         state.bank -= newPlayer.now_cost;
       }
