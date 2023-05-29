@@ -1,8 +1,4 @@
-import {
-  getPlayersPositions,
-  getTeamPicks,
-  assignPositionsToPlayers,
-} from "./utils";
+import { assignPositionsToPlayers } from "./utils";
 
 import { axiosInstance } from "../../../utils";
 
@@ -21,12 +17,35 @@ export const getManagerTeam = async (id) => {
   );
 };
 
-export const getManagerChips = async (id) => {
-  const {
-    data: { chips },
-  } = await axiosInstance.get("/manager-chips", {
+export const getManagerHistory = async (id) => {
+  const { data } = await axiosInstance.get("/manager-history", {
     params: { userID: id },
   });
 
-  return chips;
+  return data;
+};
+
+export const getTransfers = async (id) => {
+  const { data } = await axiosInstance.get("/transfers", {
+    params: { userID: id },
+  });
+
+  return data;
+};
+
+export const getPlayersPositions = (teamData) => {
+  const id_Position = teamData.picks.map((pick) => {
+    const { position, element } = pick;
+    return { position, element };
+  });
+  return id_Position;
+};
+
+export const getTeamPicks = async (teamIDs) => {
+  const {
+    data: { players: teamPicks },
+  } = await axiosInstance.get(
+    `/players/getTeamManagerPlayers?ids=[${teamIDs.map((id) => id)}]`
+  );
+  return teamPicks;
 };

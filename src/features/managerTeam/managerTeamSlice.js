@@ -1,16 +1,24 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { FIRST_ELEVEN_PLAYERS } from "../../constants";
+import { CURRENT_GW } from "../../constants";
 import { isEmpty } from "lodash";
 
 const initialState = {
   picks: JSON.parse(localStorage.getItem("fetchedPlayers")) || [],
   initialPicks: JSON.parse(localStorage.getItem("fetchedPlayers")),
   value: 0,
-  freeTransfers: 0,
+  bank:
+    JSON.parse(localStorage.getItem("managerHistory")).current[CURRENT_GW - 1]
+      .bank || 0,
+  transfers:
+    JSON.parse(localStorage.getItem("managerHistory")).current[CURRENT_GW - 1]
+      .event_transfers > 0
+      ? 1
+      : 2 || 1,
   removedPicks: [],
   playerToChange: {},
   playersAvailableToChange: [],
-  chips: [],
+  managerHistory: JSON.parse(localStorage.getItem("managerHistory")) || [],
+  transfersHistory: JSON.parse(localStorage.getItem("transfersHistory")) || [],
 };
 
 const managerTeamSlice = createSlice({
@@ -20,8 +28,11 @@ const managerTeamSlice = createSlice({
     addPicks(state, action) {
       state.picks = action.payload;
     },
-    addChips(state, action) {
-      state.chips = action.payload;
+    addManagerHistory(state, action) {
+      state.managerHistory = action.payload;
+    },
+    addTransfersHistory(state, action) {
+      state.transfersHistory = action.payload;
     },
     removePick(state, action) {
       const { position, element_type } = action.payload;
@@ -85,7 +96,8 @@ export const {
   retrievePick,
   addPick,
   makeChange,
-  addChips,
+  addManagerHistory,
+  addTransfersHistory,
 } = managerTeamSlice.actions;
 
 export default managerTeamSlice.reducer;
