@@ -11,12 +11,18 @@ import {
 } from "../../../../features/managerTeam/managerTeamSlice";
 
 const PlayerPick = ({ player }) => {
-  const { web_name: name, position, element_type } = player;
+  const {
+    web_name: name,
+    position,
+    element_type,
+    sellCost,
+    now_cost: cost,
+  } = player;
 
   const dispatch = useDispatch();
 
   const removePlayer = () => {
-    dispatch(removePick({ position, element_type }));
+    dispatch(removePick({ position, element_type, sellCost, cost }));
   };
 
   const retrievePlayer = () => {

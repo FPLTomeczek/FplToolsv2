@@ -35,13 +35,17 @@ const managerTeamSlice = createSlice({
       state.transfersHistory = action.payload;
     },
     removePick(state, action) {
-      const { position, element_type } = action.payload;
+      const { position, element_type, sellCost = 0, cost } = action.payload;
       if (
         !state.removedPicks.find(
           (removedPick) => removedPick.position === position
         )
       ) {
+        state.transfers -= 1;
         state.removedPicks.push(state.picks[position]);
+        state.bank += sellCost;
+      } else {
+        state.bank += cost;
       }
       state.picks[position] = {
         web_name: "Blank",
@@ -57,6 +61,8 @@ const managerTeamSlice = createSlice({
       state.picks[position] = retrievedPick;
       const index = state.removedPicks.indexOf(retrievedPick);
       state.removedPicks.splice(index, 1);
+      state.bank -= retrievedPick.sellCost;
+      state.transfers += 1;
     },
     addPick(state, action) {
       const newPlayer = action.payload;
@@ -70,6 +76,7 @@ const managerTeamSlice = createSlice({
           ...newPlayer,
           position: blankPlayerMatch.position,
         };
+        state.bank -= newPlayer.now_cost;
       }
     },
     makeChange(state, action) {
