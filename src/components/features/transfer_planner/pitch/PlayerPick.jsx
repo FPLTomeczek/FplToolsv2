@@ -9,6 +9,8 @@ import {
   retrievePick,
   makeChange,
 } from "../../../../features/managerTeam/managerTeamSlice";
+import blank from "../../../../assets/shirts/blank.png";
+import { teamsList } from "../list/data";
 
 const PlayerPick = ({ player, index }) => {
   const {
@@ -18,6 +20,7 @@ const PlayerPick = ({ player, index }) => {
     element_type,
     sellCost,
     now_cost: cost,
+    team,
   } = player;
 
   const dispatch = useDispatch();
@@ -33,6 +36,8 @@ const PlayerPick = ({ player, index }) => {
   const enableChange = () => {
     dispatch(makeChange(player.id));
   };
+
+  const shirt = teamsList.find((teamItem) => teamItem.value === team)?.img;
 
   return (
     <Wrapper>
@@ -51,7 +56,11 @@ const PlayerPick = ({ player, index }) => {
             </button>
           )}
         </div>
-        <i className="fa-solid fa-shirt"></i>
+        {shirt ? (
+          <img src={shirt} alt="shirt" />
+        ) : (
+          <img src={blank} alt="default-shirt" />
+        )}
         <p>{name}</p>
       </div>
     </Wrapper>
@@ -59,10 +68,14 @@ const PlayerPick = ({ player, index }) => {
 };
 
 const Wrapper = styled.div`
+  img {
+    width: 50px;
+  }
   .player-pick {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100px;
   }
   .player-pick > i {
     font-size: 4rem;

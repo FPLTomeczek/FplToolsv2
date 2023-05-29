@@ -44,7 +44,12 @@ const MainPage = () => {
   return (
     <Box
       mt={2}
-      sx={{ display: "flex", alignItems: "center", flexDirection: "column" }}
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        flexDirection: "column",
+        maxWidth: "100vw",
+      }}
     >
       <form>
         <TextField
@@ -58,6 +63,7 @@ const MainPage = () => {
           variant="contained"
           type="submit"
           onClick={(e) => handleSubmit(e)}
+          sx={{ fontSize: "1rem" }}
         >
           Submit
         </Button>

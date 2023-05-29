@@ -15,9 +15,6 @@ const Pitch = () => {
         <FirstEleven picks={picks.slice(0, 11)} />
         <Bench picks={picks.slice(11, 15)} />
       </div>
-      <Button variant="contained" size="medium">
-        Submit
-      </Button>
     </Box>
   );
 };

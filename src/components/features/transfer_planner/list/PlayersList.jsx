@@ -48,10 +48,12 @@ const PlayersList = () => {
 
   return (
     <Wrapper>
-      <Typography variant="h3">
-        Page {page} / {numOfPages}
-      </Typography>
-      <PlayersListForm setPage={setPage} />
+      <PlayersListForm
+        setPage={setPage}
+        page={page}
+        numOfPages={numOfPages}
+        handleSettingPages={curryPages(setPage, numOfPages)}
+      />
       <PlayerListItems
         pagesData={pagesData}
         page={page}
@@ -65,6 +67,8 @@ const PlayersList = () => {
 
 const Wrapper = styled.div`
   width: 100%;
+  padding: 4rem;
+  box-sizing: border-box;
 
   .player-list-item,
   .player-list-header {
@@ -99,7 +103,7 @@ const Wrapper = styled.div`
   }
   .switchPage {
     border-radius: 50%;
-    box-shadow: 0px 5px 5px;
+    border: 1px solid gray;
     cursor: pointer;
     padding: 0.5rem;
   }
