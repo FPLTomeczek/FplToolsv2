@@ -26,19 +26,17 @@ export const assignPositionsToPlayers = (positionObjects, playerObjects) => {
   return players;
 };
 
-export const getPlayersPositions = (teamData) => {
-  const id_Position = teamData.picks.map((pick) => {
-    const { position, element } = pick;
-    return { position, element };
+export const calculateSellingCost = (players, transfers) => {
+  const playersSellCost = players.map((player) => {
+    const { id } = player;
+    const transfer = transfers.find((transfer) => transfer.element_in === id);
+    const element_in_cost = transfer.element_in_cost;
+    const now_cost = players.find((player) => player.id === id).now_cost;
+    const sell_cost =
+      now_cost > element_in_cost
+        ? Math.floor((now_cost - element_in_cost) / 2 + element_in_cost)
+        : now_cost;
+    return sell_cost;
   });
-  return id_Position;
-};
-
-export const getTeamPicks = async (teamIDs) => {
-  const {
-    data: { players: teamPicks },
-  } = await axiosInstance.get(
-    `/players/getTeamManagerPlayers?ids=[${teamIDs.map((id) => id)}]`
-  );
-  return teamPicks;
+  return playersSellCost;
 };

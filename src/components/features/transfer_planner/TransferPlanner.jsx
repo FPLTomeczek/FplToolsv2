@@ -1,13 +1,9 @@
-import { useSelector } from "react-redux";
-import FirstEleven from "./pitch/FirstEleven";
-import Bench from "./pitch/Bench";
 import { styled } from "styled-components";
 import PlayerList from "./list/PlayersList";
 import { Grid } from "@mui/material";
+import Pitch from "./pitch/Pitch";
 
 const TransferPlanner = () => {
-  const managerTeam = useSelector((state) => state.managerTeam);
-  const picks = managerTeam.picks;
   return (
     <Wrapper>
       <Grid container mt={2}>
@@ -16,12 +12,13 @@ const TransferPlanner = () => {
           xs={12}
           lg={6}
           mt={4}
-          sx={{ display: "flex", justifyContent: "center" }}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
         >
-          <div className="planner-picks">
-            <FirstEleven picks={picks.slice(0, 11)} />
-            <Bench picks={picks.slice(11, 15)} />
-          </div>
+          <Pitch />
         </Grid>
 
         <Grid item xs={12} lg={6}>

@@ -1,47 +1,74 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { FIRST_ELEVEN_PLAYERS } from "../../constants";
+import { CURRENT_GW } from "../../constants";
 import { isEmpty } from "lodash";
 
 const initialState = {
   picks: JSON.parse(localStorage.getItem("fetchedPlayers")) || [],
   initialPicks: JSON.parse(localStorage.getItem("fetchedPlayers")),
   value: 0,
-  freeTransfers: 0,
+  bank:
+    JSON.parse(localStorage.getItem("managerHistory")).current[CURRENT_GW - 1]
+      .bank || 0,
+  transfers:
+    JSON.parse(localStorage.getItem("managerHistory")).current[CURRENT_GW - 1]
+      .event_transfers > 0
+      ? 1
+      : 2 || 1,
   removedPicks: [],
   playerToChange: {},
   playersAvailableToChange: [],
+  managerHistory: JSON.parse(localStorage.getItem("managerHistory")) || [],
+  transfersHistory: JSON.parse(localStorage.getItem("transfersHistory")) || [],
 };
 
 const managerTeamSlice = createSlice({
   name: "managerTeam",
   initialState,
   reducers: {
-    picksAdded(state, action) {
+    addPicks(state, action) {
       state.picks = action.payload;
     },
+    addManagerHistory(state, action) {
+      state.managerHistory = action.payload;
+    },
+    addTransfersHistory(state, action) {
+      state.transfersHistory = action.payload;
+    },
     removePick(state, action) {
-      const { index, element_type } = action.payload;
-      if (
-        !state.removedPicks.find(
-          (removedPick) => removedPick.position === index
-        )
-      ) {
-        state.removedPicks.push(state.picks[index]);
+      const { id, position, element_type, sellCost = 0, cost } = action.payload;
+      const removedPickIndex = state.picks.indexOf(
+        state.picks.find((pick) => pick.id === id)
+      );
+      console.log(removedPickIndex);
+      if (!state.removedPicks.find((removedPick) => removedPick.id === id)) {
+        state.transfers -= 1;
+        state.removedPicks.push({
+          ...state.picks[removedPickIndex],
+          removedPickIndex,
+        });
+        state.bank += sellCost;
+      } else {
+        state.bank += cost;
       }
-      state.picks[index] = {
+      state.picks[removedPickIndex] = {
         web_name: "Blank",
         element_type,
-        position: index,
+        position,
+        removedPickIndex,
       };
     },
     retrievePick(state, action) {
-      const position = action.payload;
+      const index = action.payload;
+      console.log(index);
       const retrievedPick = state.removedPicks.find(
-        (removedPick) => removedPick.position === position
+        (removedPick) => removedPick.removedPickIndex === index
       );
-      state.picks[position] = retrievedPick;
-      const index = state.removedPicks.indexOf(retrievedPick);
-      state.removedPicks.splice(index, 1);
+      console.log(retrievedPick);
+      state.picks[index] = { ...retrievedPick };
+      const removedPickIndex = state.removedPicks.indexOf(retrievedPick);
+      state.removedPicks.splice(removedPickIndex, 1);
+      state.bank -= retrievedPick.sellCost;
+      state.transfers += 1;
     },
     addPick(state, action) {
       const newPlayer = action.payload;
@@ -51,10 +78,10 @@ const managerTeamSlice = createSlice({
           pick.web_name == "Blank"
       );
       if (blankPlayerMatch) {
-        state.picks[blankPlayerMatch.position] = {
+        state.picks[blankPlayerMatch.removedPickIndex] = {
           ...newPlayer,
-          position: blankPlayerMatch.position,
         };
+        state.bank -= newPlayer.now_cost;
       }
     },
     makeChange(state, action) {
@@ -75,7 +102,14 @@ const managerTeamSlice = createSlice({
   },
 });
 
-export const { picksAdded, removePick, retrievePick, addPick, makeChange } =
-  managerTeamSlice.actions;
+export const {
+  addPicks,
+  removePick,
+  retrievePick,
+  addPick,
+  makeChange,
+  addManagerHistory,
+  addTransfersHistory,
+} = managerTeamSlice.actions;
 
 export default managerTeamSlice.reducer;

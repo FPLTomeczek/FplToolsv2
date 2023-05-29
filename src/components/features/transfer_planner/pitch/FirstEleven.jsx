@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import PlayerPick from "./PlayerPick";
 import { styled } from "styled-components";
 import { roleToIndex } from "../utils";
 
 const FirstEleven = ({ picks }) => {
+  let index = 0;
+
   const picksByRole = picks.reduce((accumulator, value) => {
     const index = roleToIndex(value.element_type);
     if (accumulator[index] === undefined) {
@@ -23,8 +25,14 @@ const FirstEleven = ({ picks }) => {
         {picksByRole.map((players, ind) => {
           return (
             <div key={ind} className="picks-row">
-              {players.map((player, index) => {
-                return <PlayerPick key={player.position} player={player} />;
+              {players.map((player) => {
+                return (
+                  <PlayerPick
+                    key={player.position}
+                    player={player}
+                    index={index++}
+                  />
+                );
               })}
             </div>
           );

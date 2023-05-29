@@ -3,10 +3,13 @@ import { styled } from "styled-components";
 import PlayerPick from "./PlayerPick";
 
 const Bench = ({ picks }) => {
+  let index = 11;
   return (
     <Wrapper>
       {picks.map((player) => {
-        return <PlayerPick key={player.position} player={player} />;
+        return (
+          <PlayerPick key={player.position} player={player} index={index++} />
+        );
       })}
     </Wrapper>
   );

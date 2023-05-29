@@ -10,17 +10,24 @@ import {
   makeChange,
 } from "../../../../features/managerTeam/managerTeamSlice";
 
-const PlayerPick = ({ player }) => {
-  const { web_name: name, position, element_type } = player;
+const PlayerPick = ({ player, index }) => {
+  const {
+    id,
+    web_name: name,
+    position,
+    element_type,
+    sellCost,
+    now_cost: cost,
+  } = player;
 
   const dispatch = useDispatch();
 
   const removePlayer = () => {
-    dispatch(removePick({ position, element_type }));
+    dispatch(removePick({ id, position, element_type, sellCost, cost }));
   };
 
   const retrievePlayer = () => {
-    dispatch(retrievePick(position));
+    dispatch(retrievePick(player.removedPickIndex));
   };
 
   const enableChange = () => {
