@@ -11,11 +11,11 @@ const TransferPlanner = () => {
           item
           xs={12}
           lg={6}
-          mt={4}
+          mt={12}
           sx={{
             display: "flex",
             justifyContent: "center",
-            alignItems: "center",
+            alignItems: "start",
           }}
         >
           <Pitch />

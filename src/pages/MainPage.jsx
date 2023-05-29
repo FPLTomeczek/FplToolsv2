@@ -63,6 +63,7 @@ const MainPage = () => {
           variant="contained"
           type="submit"
           onClick={(e) => handleSubmit(e)}
+          sx={{ fontSize: "1rem" }}
         >
           Submit
         </Button>

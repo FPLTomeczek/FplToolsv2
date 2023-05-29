@@ -5,15 +5,12 @@ import {
   TextField,
   FormControl,
   Box,
-  Typography,
-  InputLabel,
   FormLabel,
 } from "@mui/material";
 import { useFormik } from "formik";
 import { useDispatch } from "react-redux";
 import { filterPlayers } from "../../../../features/players/playersSlice";
 import { teamsList, roles } from "./data";
-import ListButtons from "./ListButtons";
 import PageController from "./PageController";
 
 const PlayersListForm = ({ setPage, page, numOfPages, handleSettingPages }) => {
@@ -55,10 +52,10 @@ const PlayersListForm = ({ setPage, page, numOfPages, handleSettingPages }) => {
         sx={{ display: "flex", gap: "1rem", width: "100%", alignItems: "end" }}
       >
         <FormControl>
-          <InputLabel>Name</InputLabel>
           <TextField
             id="name"
             name="name"
+            label="Name"
             value={formik.values.name}
             onChange={(e) => handleSelectOnChange(e, "name")}
           ></TextField>
